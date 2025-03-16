@@ -4,7 +4,7 @@ github action to upload coredumpy dumps
 ## Usage
 
 ```yml
-- uses: gaogaotiantian/upload-coredumpy@v0.1
+- uses: gaogaotiantian/upload-coredumpy@v0.2
   with:
     # Artifact Name
     name:
@@ -31,7 +31,7 @@ jobs:
         # for `unittest`
         run: pytest --enable-coredumpy --coredumpy-dir "${{ env.COREDUMPY_DUMP_DIR }}"
       - name: Upload coredumpy artifacts
-        uses: gaogaotiantian/upload-coredumpy@v0.1
+        uses: gaogaotiantian/upload-coredumpy@v0.2
         # Only do this step if the test failed
         if: failure()
         with:
