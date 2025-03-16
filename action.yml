@@ -28,4 +28,6 @@ runs:
       if: steps.upload-artifact.outputs.artifact-id != ''
       run: |
         echo "Load dump in VSCode: vscode://gaogaotiantian.coredumpy-vscode/load-github-artifact?owner=${{ github.repository_owner }}&repo=${{ github.event.repository.name }}&artifactId=${{ steps.upload-artifact.outputs.artifact-id }}"
-        echo "Load dump in VSCode: \`vscode://gaogaotiantian.coredumpy-vscode/load-github-artifact?owner=${{ github.repository_owner }}&repo=${{ github.event.repository.name }}&artifactId=${{ steps.upload-artifact.outputs.artifact-id }}\`" >> $GITHUB_STEP_SUMMARY
+        echo "[Download](${{ steps.upload-artifact.outputs.artifact-url }}) dump from coredumpy or" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "Load in VSCode: \`vscode://gaogaotiantian.coredumpy-vscode/load-github-artifact?owner=${{ github.repository_owner }}&repo=${{ github.event.repository.name }}&artifactId=${{ steps.upload-artifact.outputs.artifact-id }}\`" >> $GITHUB_STEP_SUMMARY
