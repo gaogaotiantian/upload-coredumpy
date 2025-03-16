@@ -1,0 +1,31 @@
+name: 'Upload Coredumpy Artifacts'
+description: 'Upload Coredumpy Artifacts using upload-artifact and create links to load in VSCode'
+author: 'gaogaotiantian'
+inputs:
+  name:
+    description: 'Name of the artifact to upload, feed to upload-artifact'
+    required: true
+  path:
+    description: 'A file, directory or wildcard pattern about what to upload, feed to upload-artifact'
+    required: true
+  retention-days:
+    description: 'Number of days to keep the artifact, feed to upload-artifact'
+    required: false
+    default: 7
+runs:
+  using: 'composite'
+  steps:
+    - name: Upload Coredumpy Artifacts
+      id: upload-artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ inputs.name }}
+        path: ${{ inputs.path }}
+        retention-days: ${{ inputs.retention-days }}
+        if-no-files-found: 'ignore'
+    - name: Create links to load in VSCode
+      shell: bash
+      if: steps.upload-artifact.outputs.artifact-id != ''
+      run: |
+        echo "Load dump in VSCode: vscode://gaogaotiantian.coredumpy-vscode/load-github-artifact?owner=${{ github.repository_owner }}&repo=${{ github.event.repository.name }}&artifactId=${{ steps.upload-artifact.outputs.artifact-id }}"
+        echo "Load dump in VSCode: \`vscode://gaogaotiantian.coredumpy-vscode/load-github-artifact?owner=${{ github.repository_owner }}&repo=${{ github.event.repository.name }}&artifactId=${{ steps.upload-artifact.outputs.artifact-id }}\`" >> $GITHUB_STEP_SUMMARY
